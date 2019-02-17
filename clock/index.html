@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Clock</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<style type="text/css">
+			body{
+				margin: 0;
+			}
+			#clock{
+				display: block;
+				margin: 20px auto;
+			}
+		</style>
+		<script type="text/javascript">
+			
+			function getDpr(){
+				return window.devicePixelRatio || 1;
+			}
+			
+			class Clock{
+				
+				constructor(canvas){
+					this.canvas	= canvas;
+					this.ctx	= canvas.getContext('2d');
+					this.digits	= [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2];
+					this.canvas.style.width = this.canvas.offsetWidth + 'px';
+					this.canvas.style.height = this.canvas.offsetHeight + 'px';
+					this.resize();
+				}
+				
+				resize(){
+					this.width	= this.canvas.width = this.canvas.offsetWidth * getDpr();
+					this.height	= this.canvas.height = this.canvas.offsetHeight * getDpr();
+					this.rem	= this.width / 200;
+					this.r		= this.width / 2;
+				}
+				
+				_context(){
+					return this.ctx;
+				}
+				
+				_drawBg(){
+					var ctx			= this._context(),
+						lineWidth	= 8 * this.rem,
+						r			= this.r - lineWidth / 2;
+					ctx.translate(this.r,this.r);
+					ctx.beginPath();
+					ctx.lineWidth = lineWidth;
+					ctx.arc(0, 0, r, 0, 2 * Math.PI);
+					ctx.closePath();
+					ctx.stroke();
+				}
+				
+				_drawDot(){
+					var ctx		= this._context(),
+						delta	= 16 * this.rem,
+						r		= this.r - delta,
+						dotRad = 2 * Math.PI / 60,
+						x, y;
+					for(let i = 0; i < 60; i++){
+						let rad = dotRad * i;
+						x = r * Math.cos(rad);
+						y = r * Math.sin(rad);
+						ctx.beginPath();
+						ctx.arc(x, y, 2 * this.rem, 0, 2 * Math.PI);
+						ctx.closePath();
+						ctx.fillStyle = 'gray';
+						if ( i % 5 === 0 ) {
+							ctx.fillStyle = 'black';
+						}
+						ctx.fill();
+					}
+				}
+				
+				_drawDigits(h){
+					var me		= this,
+						ctx		= this._context(),
+						delta	= 30 * this.rem,
+						r		= this.r - delta,
+						cellRad	= 2 * Math.PI / 12,
+						rad, x, y;
+						
+					ctx.font = 16 * this.rem + 'px Arial';
+					ctx.textAlign = 'center';
+					ctx.textBaseline = 'middle';
+					ctx.fillStyle = 'black';
+					this.digits.forEach(function(digit, index){
+						rad = cellRad * index
+						x = r * Math.cos(rad);
+						y = r * Math.sin(rad);
+						ctx.fillText(digit.toString(), x, y);
+					});
+				}
+				
+				_drawStr(x, y, str){
+					var ctx = this._context(),
+						gradient = ctx.createLinearGradient(0, 0, this.width, 0);
+					gradient.addColorStop('0','magenta');
+					gradient.addColorStop('0.5','blue');
+					gradient.addColorStop('1.0','red');
+					ctx.strokeStyle = gradient;
+					ctx.font = 24 * this.rem + 'px Verdana';
+					ctx.lineWidth = 1 * this.rem;
+					ctx.strokeText(str, x, y * this.rem);
+				}
+				
+				_drawHand(rad, length, style, width){
+					var ctx		= this._context();
+					ctx.save();
+					ctx.rotate(rad);
+					ctx.lineCap="round";
+					ctx.lineWidth = width;
+					ctx.strokeStyle = style;
+					ctx.beginPath();
+					ctx.moveTo(0, 10 * this.rem);
+					ctx.lineTo(0, -length);
+					ctx.stroke();
+					ctx.restore();
+				}
+				
+				_drawTime(h, m, s){
+					var cellRad = 2 * Math.PI / 12,
+						dotRad = 2 * Math.PI / 60,
+						rad;
+					rad = cellRad * (h + m / 60);
+					this._drawHand(rad, this.r * 0.5, 'rgba(0,0,0,.8)', 4 * this.rem);
+					rad = dotRad * m;
+					this._drawHand(rad, this.r * 0.6, 'rgba(0,0,0,.8)', 3 * this.rem);
+					rad = dotRad * s;
+					this._drawHand(rad, this.r * 0.78, 'gray', 2 * this.rem);
+					this._drawCenterDot();
+				}
+				
+				_drawCenterDot(){
+					var ctx = this._context();
+					ctx.beginPath();
+					ctx.arc(0, 0, 2 * this.rem, 0, 2 * Math.PI)
+					ctx.closePath();
+					ctx.fillStyle = 'white';
+					ctx.fill();
+				}
+				
+				_update(h, m, s){
+					var ctx = this._context();
+					ctx.clearRect(0, 0, this.width, this.height);
+					ctx.save();
+					this._drawBg();
+					this._drawDot();
+					this._drawDigits();
+					this._drawStr(0, -28, h + (m < 10 ? ':0' : ':') + m);
+					this._drawStr(0, 28, 'Clock');
+					this._drawTime(h, m, s);
+					this._drawCenterDot();
+					ctx.restore();
+				}
+				
+				start(){
+					var me = this,
+						t = new Date();
+					this._update(t.getHours(), t.getMinutes(), t.getSeconds());
+					requestAnimationFrame(function(){
+						me.start();
+					}, 1000);
+				}
+				
+			}
+			
+			window.onload = function(){
+				var canvas = document.getElementById('clock');
+				var clock = new Clock(canvas);
+				clock.start();
+				
+				window.onresize = function(){
+					clock.resize();
+				}
+			}
+			
+		</script>
+	</head>
+	<body>
+		<canvas id="clock" width="200px" height="200px"></canvas>
+	</body>
+</html>
