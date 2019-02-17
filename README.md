@@ -6,3 +6,5 @@
 ## 贪吃蛇：[https://zoyen.github.io/my-old-code/snake/](https://zoyen.github.io/my-old-code/snake/)
 
 ## 仿淘宝：[https://zoyen.github.io/my-old-code/taobao/](https://zoyen.github.io/my-old-code/taobao/)
+
+## 数据过滤：[https://zoyen.github.io/my-old-code/data-filter/](https://zoyen.github.io/my-old-code/data-filter/)
