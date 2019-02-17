@@ -1,0 +1,143 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.wrapper {
+    width: 800px;
+    margin: 60px auto 0;
+    border: 4px solid #CCC;
+    border-radius: 14px;
+}
+
+/* Input text */
+
+.filter-box .filter-text {
+    box-sizing: border-box;
+    margin: 10px 0 0 10px;
+    border: 2px solid #CCC;
+    border-radius: 6px;
+    outline: none;
+    padding: 10px;
+    width: 480px;
+    line-height: 21px;
+    color: #666;
+    font-size: 16px;
+}
+
+.filter-box .filter-text:hover {
+    border-color: orange;
+}
+
+.filter-box .filter-text:focus {
+    border-color: orange;
+    background: orange;
+    color: #FFF;
+}
+
+/* Radio Sex */
+
+.filter-box .filter-sex {
+    float: right;
+}
+
+.filter-box .filter-sex li {
+    float: left;
+    box-sizing: border-box;
+    margin: 10px 10px 0 0;
+    border: 2px solid #CCC;
+    border-radius: 6px;
+    padding: 10px;
+    width: 90px;
+    line-height: 21px;
+    color: #666;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.filter-box .filter-sex li.active {
+    border-color: orange;
+    background: orange;
+    color: #FFF;
+}
+
+.filter-box .filter-sex li:hover {
+    border-color: orange;
+}
+
+/* List Wrap */
+
+.list-box ul {
+    margin: 10px 10px 0 10px;
+}
+
+/* Item Dotted Line */
+
+.list-box li {
+    padding: 10px 0;
+    border-top: 1px dashed #CCC;
+}
+
+/* Item Head Img*/
+
+.list-box li img {
+    box-sizing: border-box;
+    width: 52px;
+    height: 52px;
+    margin-right: 12px;
+    border: 2px solid #CCC;
+    border-radius: 50%;
+    float: left;
+}
+
+.list-box li img.male {
+    border-color: #09F;
+}
+
+.list-box li img.female {
+    border-color: #F69;
+}
+
+/* Item Name */
+
+.list-box li div.name {
+    height: 26px;
+    line-height: 26px;
+    color: #666;
+}
+
+.list-box li div.name em {
+    color: #F69;
+    font-style: normal;
+}
+
+/* Item Keyword */
+
+.list-box li div.keyword {
+    height: 26px;
+    color: #999;
+}
+
+.list-box li div.keyword a {
+    display: inline-block;
+    margin: 2px;
+    border: 1px solid orange;
+    padding: 0 5px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
+    text-decoration: none;
+    color: orange;
+}
+
+.list-box li div.keyword a:hover {
+    background: orange;
+    color: #FFF;
+}
+
+.list-box li div.keyword a em {
+    color: blue;
+    font-style: normal;
+}
