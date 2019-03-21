@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calendar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="main">
+        <header>
+            <h1>{{ dateFormat(select) }}</h1>
+            <div class="right" @click="toToday">今天</div>
+        </header>
+
+
+        <!-- Main -->
+        <div class="cale" :class="{ caleTransition: caleTransition }" @touchstart="caleTouch" @touchmove="caleTouch" @touchend="caleTouch" @click="clickDate" :style="{ transform: caleTransform }">
+            <!-- week-header -->
+            <ul class="week-header">
+                <li>日</li>
+                <li>一</li>
+                <li>二</li>
+                <li>三</li>
+                <li>四</li>
+                <li>五</li>
+                <li>六</li>
+            </ul>
+            <ul class="row" v-for="week, index in weeks" :key="index">
+                <li v-for="day in week" :class="{ today: today.getDate() == day, select: select.getDate() == day }">
+                    {{ day }}
+                </li>
+            </ul>
+        </div>
+
+
+        <!-- footer，Other -->
+        <div class="control">收缩/展开</div>
+        <div class="other">
+            Other
+        </div>
+    </div>
+
+    <script src="vue.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
